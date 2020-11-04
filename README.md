@@ -15,4 +15,4 @@ stack new [options] <project-name> <majjoha/template-name>
 on [CircleCI](https://circleci.com).
 
 ## License
-See [LICENSE](https://github.com/majjoha/harpsichord/blob/main/LICENSE).
+See [LICENSE](https://github.com/majjoha/stack-templates/blob/main/LICENSE).
