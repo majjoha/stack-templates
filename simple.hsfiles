@@ -1,0 +1,113 @@
+{-# START_FILE .circleci/config.yml #-}
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: fpco/stack-build:lts
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore cached dependencies
+          keys:
+            # TODO: Replace parentheses with curly braces
+            # - ((name))-(( checksum "package.yaml" ))
+      - run:
+          name: Resolve/update dependencies
+          command: stack setup
+      - run:
+          name: Run tests
+          command: stack test
+      - save_cache:
+          name: Cache dependencies
+          # TODO: Replace parentheses with curly braces
+          # - key: ((name))-(( checksum "package.yaml" ))
+          paths:
+            - ".stack-work"
+            - "/root/.stack"
+
+{-# START_FILE .gitignore #-}
+*.cabal
+.stack-work
+
+{-# START_FILE package.yaml #-}
+name:                {{name}}
+version:             0.1.0.0
+github:              "{{github-username}}{{^github-username}}majjoha{{/github-username}}/{{name}}"
+license:             ISC
+author:              "{{author-name}}{{^author-name}}Mathias Jean Johansen{{/author-name}}"
+maintainer:          "{{author-email}}{{^author-email}}mathias@mjj.io{{/author-email}}"
+copyright:           "{{copyright}}{{^copyright}}Copyright (c) {{year}}{{^year}}2020{{/year}} {{author-name}}{{^author-name}}Mathias Jean Johansen{{/author-name}}{{/copyright}}"
+
+extra-source-files:
+- README.md
+- LICENSE
+
+description:         Please see the README on GitHub at <https://github.com/{{github-username}}{{^github-username}}majjoha{{/github-username}}/{{name}}#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+tests:
+  {{name}}-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    dependencies:
+    - {{name}}
+    - hspec
+    - hspec-discover
+
+{-# START_FILE README.md #-}
+# {{name}}
+
+## License
+See [LICENSE](https://github.com/{{github-username}}{{^github-username}}majjoha{{/github-username}}/{{name}}/blob/main/LICENSE).
+
+{-# START_FILE LICENSE #-}
+Copyright (c) {{year}}{{^year}}2019{{/year}} {{author-name}}
+
+Permission to use, copy, modify, and distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+{-# START_FILE Setup.hs #-}
+import Distribution.Simple
+main = defaultMain
+
+{-# START_FILE src/Main.hs #-}
+module Main where
+
+main :: IO ()
+main = do
+  putStrLn "hello world"
+
+{-# START_FILE src/Simple.hs #-}
+module Simple where
+
+{-# START_FILE test/SimpleSpec.hs #-}
+module SimpleSpec (spec) where
+
+import Simple
+import Test.Hspec
+
+spec :: Spec
+spec = undefined
+
+{-# START_FILE test/Spec.hs #-}
+{-# OPTIONS_GHC -F -pgmF hspec-discover #-}
