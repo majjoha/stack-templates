@@ -21,7 +21,7 @@ jobs:
       - save_cache:
           name: Cache dependencies
           # TODO: Replace parentheses with curly braces
-          # - key: ((name))-(( checksum "package.yaml" ))
+          # key: ((name))-(( checksum "package.yaml" ))
           paths:
             - ".stack-work"
             - "/root/.stack"
