@@ -10,9 +10,9 @@ stack new [options] <project-name> <majjoha/template-name>
 
 ## Templates
 ### Simple
-`majjoha/simple` is a minimal template for writing libraries. It adds
-[Hspec](https://hspec.github.io) and adds a configuration file for running tests
-on [CircleCI](https://circleci.com).
+`majjoha/simple` is a minimal template for writing libraries. It only includes
+[Hspec](https://hspec.github.io) and a configuration file for running tests
+using [GitHub Actions](https://github.com/features/actions).
 
 ## License
 See [LICENSE](https://github.com/majjoha/stack-templates/blob/main/LICENSE).
