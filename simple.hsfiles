@@ -62,7 +62,7 @@ tests:
 ![CI](https://github.com/{{github-username}}{{^github-username}}majjoha{{/github-username}}/{{name}}/workflows/CI/badge.svg)
 
 ## License
-See [LICENSE](./LICENSE.md).
+See [LICENSE](./LICENSE).
 
 {-# START_FILE LICENSE #-}
 Copyright (c) {{year}}{{^year}}2019{{/year}} {{author-name}}
